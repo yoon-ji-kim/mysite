@@ -7,13 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.web.mvc.Action;
-import com.douzone.web.utils.WebUtil;
+import com.douzone.web.utils.MvcUtil;
 
 public class JoinFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		WebUtil.forward("user/joinform", request, response);
+		MvcUtil.forward("user/joinform", request, response);
 
 	}
 

@@ -6,8 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.douzone.mysite.dao.UserDao;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
+import com.douzone.web.utils.MvcUtil;
 
 public class JoinAction implements Action {
 
@@ -24,10 +26,7 @@ public class JoinAction implements Action {
 		vo.setPassword(password);
 		vo.setGender(gender);
 		
-		System.out.println(vo);
-//		new UserDao().insert(vo);
-		//리다이렉트
-		response.sendRedirect(request.getContextPath()+"/user?a=joinsuccess");
+		new UserDao().insert(vo);
+		MvcUtil.redirect(request.getContextPath()+"/user?a=joinsuccess",request,response);
 	}
-
 }

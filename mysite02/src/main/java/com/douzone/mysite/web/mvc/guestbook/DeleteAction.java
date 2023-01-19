@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.dao.GuestbookDao;
 import com.douzone.web.mvc.Action;
+import com.douzone.web.utils.MvcUtil;
 
 public class DeleteAction implements Action {
 
@@ -19,7 +20,7 @@ public class DeleteAction implements Action {
 		if(password.equals(result)){
 			new GuestbookDao().deleteByNoAndPassword(no, password);
 		}
-		response.sendRedirect(request.getContextPath()+"/guestbook");
+		MvcUtil.redirect(request.getContextPath()+"/guestbook", request, response);
 	}
 
 }
