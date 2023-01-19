@@ -26,7 +26,6 @@ public class UpdateAction implements Action {
 			MvcUtil.redirect(request.getContextPath(), request, response);
 			return;
 		}
-		String no = request.getParameter("no");
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String gender =request.getParameter("gender");
