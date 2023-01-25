@@ -72,9 +72,11 @@
 						<li><a href="">▶</a></li>
 					</ul>
 				</div>	
-				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
-				</div>				
+				<c:if test="${not empty authUser}">
+					<div class="bottom">
+						<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+					</div>				
+				</c:if>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
