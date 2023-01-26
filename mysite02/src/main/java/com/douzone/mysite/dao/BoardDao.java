@@ -98,16 +98,20 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select no, name, password, message, reg_date from guestbook";
+			String sql = "select * from board";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				GuestbookVo vo = new GuestbookVo();
-				vo.setNo(rs.getInt(1));
-				vo.setName(rs.getString(2));
-				vo.setPassword(rs.getString(3));
-				vo.setMessage(rs.getString(4));
+				BoardVo vo = new BoardVo();
+				vo.setNo(rs.getLong(1));
+				vo.setTitle(rs.getString(2));
+				vo.setContents(rs.getString(3));
+				vo.setHit(rs.getInt(4));
 				vo.setRegDate(rs.getString(5));
+				vo.setGroupNo(rs.getLong(6));
+				vo.setOrderNo(rs.getLong(7));
+				vo.setDepth(rs.getLong(8));
+				vo.setUserNo(rs.getLong(9));
 				result.add(vo);
 			}
 		} catch (SQLException e) {
