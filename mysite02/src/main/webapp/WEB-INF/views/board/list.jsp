@@ -37,7 +37,9 @@
 					</tr>
 					<tr>
 						<td>2</td>
-						<td style="text-align: left; padding-left: 15px">
+	
+
+				<td style="text-align: left; padding-left: 15px">
 							<!-- depth가 0보다 큰 경우 (댓글인경우) padding-left: depth*15-->
 							<img src="${pageContext.request.contextPath }/assets/images/reply.png">
 							<a href="">두 번째 글입니다.</a>
