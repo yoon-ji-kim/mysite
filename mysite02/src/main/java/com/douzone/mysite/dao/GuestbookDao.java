@@ -57,7 +57,7 @@ public class GuestbookDao {
 	}
 
 	public List<GuestbookVo> findAll() {
-		List<GuestbookVo> result = new ArrayList<>();
+		List<GuestbookVo> result = new ArrayList();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
