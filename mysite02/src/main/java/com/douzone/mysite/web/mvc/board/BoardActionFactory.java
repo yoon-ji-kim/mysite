@@ -20,6 +20,8 @@ public class BoardActionFactory extends ActionFactory {
 			action = new UpdateFormAction();
 		} else if("update".equals(actionName)){
 			action = new UpdateAction();
+		} else if("keyword".equals(actionName)){
+			action = new KeywordAction();
 		} else {
 			action = new ListAction();
 		}

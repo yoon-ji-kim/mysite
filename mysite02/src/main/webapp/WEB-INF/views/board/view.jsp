@@ -34,11 +34,18 @@
 						</td>
 					</tr>
 				</table>
+					
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
 					<c:if test="${vo.userNo == authUser.no }">
 						<a href="${pageContext.request.contextPath }/board?a=updateForm&no=${vo.no}">글수정</a>
-					</c:if>
+					</c:if>	
+					<form method="post" action="${pageContext.request.contextPath }/board?a=writeform">
+						<input type = "hidden" name = "gno" value="${vo.groupNo }">
+						<input type = "hidden" name = "ono" value="${vo.orderNo }">
+						<input type = "hidden" name = "depth" value="${vo.depth }">
+						<input type= "submit" value="댓글">
+					</form>
 				</div>
 			</div>
 		</div>

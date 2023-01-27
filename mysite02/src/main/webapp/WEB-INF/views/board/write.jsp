@@ -16,6 +16,9 @@
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
+					<input type = "hidden" name = "gno" value="${param.gno}">
+					<input type = "hidden" name = "ono" value="${param.ono == null ? 1 : param.ono}">
+					<input type = "hidden" name = "depth" value="${param.depth == null ? 0 : param.depth}">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

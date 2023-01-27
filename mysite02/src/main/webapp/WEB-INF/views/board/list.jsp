@@ -14,7 +14,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">					
+					<input type="hidden"  name="a" value="keyword">
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
@@ -30,7 +31,10 @@
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
 							<td>${status.index }</td>
-							<td style="text-align: left; padding-left: 0px">
+							<td style="text-align: left; padding-left: ${vo.depth*15}px">
+								<c:if test="${vo.depth >0 }">
+								<img src="${pageContext.request.contextPath }/assets/images/reply.png">
+								</c:if>
 								<a href="${pageContext.request.contextPath }/board?a=search&no=${vo.no}">
 									${vo.title }
 								</a>
@@ -45,29 +49,6 @@
 							</td>
 						</tr>					
 					</c:forEach>
-					<tr>
-						<td>2</td>
-						<td style="text-align: left; padding-left: 15px">
-							<!-- depth가 0보다 큰 경우 (댓글인경우) padding-left: depth*15-->
-							<img src="${pageContext.request.contextPath }/assets/images/reply.png">
-							<a href="">두 번째 글입니다.</a>
-						</td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td style="text-align: left; padding-left: 30px">
-							<img src="${pageContext.request.contextPath }/assets/images/reply.png">
-							<a href="">첫 번째 글입니다.</a>
-						</td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
 				</table>
 				
 				<!-- pager 추가 -->

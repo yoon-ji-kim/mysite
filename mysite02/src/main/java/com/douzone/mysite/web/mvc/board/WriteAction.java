@@ -27,11 +27,23 @@ public class WriteAction implements Action {
 			MvcUtil.redirect(request.getContextPath(), request, response);
 			return;
 		}
-		
+		BoardVo vo = new BoardVo();
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		String gNo = request.getParameter("gno");
+		Long oNo = Long.parseLong(request.getParameter("ono"));
+		Long depth = Long.parseLong(request.getParameter("depth"));
 		Long userNo = authUser.getNo();
-		BoardVo vo = new BoardVo();
+		if(gNo == null || gNo.equals("")) {
+			vo.setGroupNo(new BoardDao().findMaxNo()+1);
+			vo.setDepth(depth);
+			vo.setOrderNo(oNo);
+		}else {
+			new BoardDao().updateOno(oNo, Long.parseLong(gNo));
+			vo.setGroupNo(Long.parseLong(gNo));
+			vo.setDepth(depth+1);			
+			vo.setOrderNo(oNo+1);
+		}
 		vo.setTitle(title);
 		vo.setContents(content);
 		vo.setUserNo(userNo);

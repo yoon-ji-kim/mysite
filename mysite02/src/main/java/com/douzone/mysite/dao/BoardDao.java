@@ -32,7 +32,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select max(g_no) from board";
+			String sql = "select ifnull(max(g_no), 0) from board";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -59,20 +59,21 @@ public class BoardDao {
 		}
 		return result;
 	}
+	
 	public void insert(BoardVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		Long gNo = findMaxNo();
-		vo.setGroupNo(gNo);
 		try {
 			conn = getConnection();
 			String sql = "insert into board"
-					+ " values (null, ?, ?, 0, now(), ?, 1, 0, ?)";
+					+ " values (null, ?, ?, 0, now(), ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContents());
 			pstmt.setLong(3, vo.getGroupNo());
-			pstmt.setLong(4, vo.getUserNo());
+			pstmt.setLong(4, vo.getOrderNo());
+			pstmt.setLong(5, vo.getDepth());
+			pstmt.setLong(6, vo.getUserNo());
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -141,6 +142,7 @@ public class BoardDao {
 						+ " from board a"
 						+ " join user b"
 						+ " on a.user_no = b.no"
+						+ " order by g_no desc, o_no"
 						+ " limit ?, ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, start);
@@ -216,7 +218,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select no, title, contents, user_no"
+			String sql = "select *"
 					+ " from board"
 					+ " where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -226,7 +228,12 @@ public class BoardDao {
 				result.setNo(rs.getLong(1));
 				result.setTitle(rs.getString(2));
 				result.setContents(rs.getString(3));
-				result.setUserNo(rs.getLong(4));
+				result.setHit(rs.getInt(4));
+				result.setRegDate(rs.getString(5));
+				result.setGroupNo(rs.getLong(6));
+				result.setOrderNo(rs.getLong(7));
+				result.setDepth(rs.getLong(8));
+				result.setUserNo(rs.getLong(9));
 			}
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -344,5 +351,82 @@ public class BoardDao {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void updateOno(Long oNo, Long gNo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = getConnection();
+			String sql = "update board"
+					+ " set o_no = o_no+1"
+					+ " where g_no =?"
+					+ " and o_no > ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, gNo);
+			pstmt.setLong(2, oNo);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public List<BoardVo> findByKeyword(String keyword) {
+		List<BoardVo> result = new ArrayList<>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String sql = "select a.no, a.title, a.g_no, a.o_no, a.depth, a.user_no, b.name"
+					+ " from board a"
+					+ " join user b"
+					+ " on a.user_no = b.no"
+					+ " where title like ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+keyword+"%");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BoardVo vo = new BoardVo();
+				vo.setNo(rs.getLong(1));
+				vo.setTitle(rs.getString(2));
+				vo.setGroupNo(rs.getLong(3));
+				vo.setOrderNo(rs.getLong(4));
+				vo.setDepth(rs.getLong(5));
+				vo.setUserNo(rs.getLong(6));
+				vo.setName(rs.getString(7));
+				result.add(vo);				
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(rs !=null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 }
