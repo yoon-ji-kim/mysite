@@ -34,7 +34,7 @@ public class SearchAction implements Action {
 				}
 			}
 		}
-		if(isCookie) {
+		if(!isCookie) {
 			Cookie cookie = new Cookie("visitCount", String.valueOf(no));
 			cookie.setPath(request.getContextPath());
 			cookie.setMaxAge(24 * 60 * 60);  //1day
