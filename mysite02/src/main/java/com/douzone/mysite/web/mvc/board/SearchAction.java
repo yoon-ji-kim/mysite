@@ -43,5 +43,4 @@ public class SearchAction implements Action {
 			new BoardDao().updateHit(no);		
 		}
 	}
-
 }

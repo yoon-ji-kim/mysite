@@ -12,6 +12,7 @@ import com.douzone.mysite.vo.BoardVo;
 
 public class BoardDao {
 	private static int pageLength = 5;
+	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 
@@ -25,6 +26,7 @@ public class BoardDao {
 
 		return conn;
 	}
+	
 	public Long findMaxNo() {
 		Long result = 1L;
 		Connection conn = null;
@@ -129,6 +131,7 @@ public class BoardDao {
 		}
 		return result;
 	}
+	
 	public List<BoardVo> findAll(int page) {
 		List<BoardVo> result = new ArrayList<>();
 		Connection conn = null;
@@ -182,6 +185,7 @@ public class BoardDao {
 		}
 		return result;
 	}
+	
 	public void deleteByNoandUserNo(int no, Long userNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -211,6 +215,7 @@ public class BoardDao {
 			}
 		}
 	}
+	
 	public BoardVo findByNo(int no) {
 		BoardVo result = new BoardVo();
 		Connection conn = null;
@@ -255,6 +260,7 @@ public class BoardDao {
 		}
 		return result;
 	}
+	
 	public void update(BoardVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -285,6 +291,7 @@ public class BoardDao {
 			}
 		}
 	}
+	
 	public int findHitByNo(int no) {
 		int result = 0;
 		Connection conn = null;
@@ -321,6 +328,7 @@ public class BoardDao {
 		}
 		return result;
 	}
+	
 	public void updateHit(int no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -383,6 +391,7 @@ public class BoardDao {
 			}
 		}
 	}
+	
 	public List<BoardVo> findByKeyword(String keyword) {
 		List<BoardVo> result = new ArrayList<>();
 		Connection conn = null;
