@@ -13,7 +13,7 @@ import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.utils.MvcUtil;
 
-public class WriteAction implements Action {
+public class UpdateAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,13 +30,13 @@ public class WriteAction implements Action {
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		Long userNo = authUser.getNo();
+		Long no = Long.parseLong(request.getParameter("no"));
 		BoardVo vo = new BoardVo();
+		vo.setNo(no);
 		vo.setTitle(title);
 		vo.setContents(content);
-		vo.setUserNo(userNo);
-		new BoardDao().insert(vo);
-		MvcUtil.redirect(request.getContextPath()+"/board", request, response);
+		new BoardDao().update(vo);
+		MvcUtil.redirect(request.getContextPath()+"/board?a=search&no="+no, request, response);
 	}
 
 }

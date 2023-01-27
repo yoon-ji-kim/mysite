@@ -30,11 +30,19 @@
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
 							<td>${status.index }</td>
-							<td style="text-align: left; padding-left: 0px"><a href="">${vo.contents }</a></td>
-							<td>안대혁</td>
-							<td>3</td>
+							<td style="text-align: left; padding-left: 0px">
+								<a href="${pageContext.request.contextPath }/board?a=search&no=${vo.no}">
+									${vo.title }
+								</a>
+							</td>
+							<td>${vo.name }</td>
+							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<td><a href="${pageContext.request.contextPath }/board?a=delete" class="del">삭제</a></td>
+							<td>
+								<c:if test="${authUser.no == vo.userNo}">
+								<a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a>
+								</c:if>
+							</td>
 						</tr>					
 					</c:forEach>
 					<tr>
@@ -64,15 +72,27 @@
 				
 				<!-- pager 추가 -->
 				<div class="pager">
-					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
-					</ul>
+						<ul>
+							<c:choose>
+								<c:when test="${page == 1 }">
+									<li class="disabled">◀</li>								
+								</c:when>
+								<c:otherwise>
+									<li><a href="${pageContext.request.contextPath }/board?page=${page-1}">◀</a></li>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach var="page" begin="1" end="${totalPage}" step="1">
+								<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${page}">${page }</a></li>
+							</c:forEach>
+							<c:choose>
+								<c:when test="${page == totalPage }">
+									<li class="disabled">▶</li>	
+								</c:when>
+								<c:otherwise>
+									<li><a href="${pageContext.request.contextPath }/board?page=${page+1}">▶</a></li>									
+								</c:otherwise>
+							</c:choose>
+						</ul>
 				</div>	
 				<c:if test="${not empty authUser}">
 					<div class="bottom">

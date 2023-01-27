@@ -8,12 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.douzone.mysite.dao.BoardDao;
-import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.utils.MvcUtil;
 
-public class WriteAction implements Action {
+public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,15 +26,9 @@ public class WriteAction implements Action {
 			MvcUtil.redirect(request.getContextPath(), request, response);
 			return;
 		}
-		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		int no = Integer.parseInt(request.getParameter("no"));
 		Long userNo = authUser.getNo();
-		BoardVo vo = new BoardVo();
-		vo.setTitle(title);
-		vo.setContents(content);
-		vo.setUserNo(userNo);
-		new BoardDao().insert(vo);
+		new BoardDao().deleteByNoandUserNo(no, userNo);
 		MvcUtil.redirect(request.getContextPath()+"/board", request, response);
 	}
 
