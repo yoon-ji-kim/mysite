@@ -404,12 +404,9 @@ public class BoardDao {
 					+ " join user b"
 					+ " on a.user_no = b.no"
 					+ " where title like ?"
-					+ " order by g_no desc, o_no"
-					+ " limit ?, ?";
+					+ " order by g_no desc, o_no";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%"+keyword+"%");
-			pstmt.setInt(2, 0);
-			pstmt.setInt(3, pageLength);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BoardVo vo = new BoardVo();
