@@ -11,7 +11,7 @@ import java.util.List;
 import com.douzone.mysite.vo.BoardVo;
 
 public class BoardDao {
-	private static int pageLength = 5;
+	private int pageLength = 5;
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
@@ -399,23 +399,29 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select a.no, a.title, a.g_no, a.o_no, a.depth, a.user_no, b.name"
+			String sql = "select a.no, a.title, a.hit ,a.reg_date, a.g_no, a.o_no, a.depth, a.user_no, b.name"
 					+ " from board a"
 					+ " join user b"
 					+ " on a.user_no = b.no"
-					+ " where title like ?";
+					+ " where title like ?"
+					+ " order by g_no desc, o_no"
+					+ " limit ?, ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setInt(2, 0);
+			pstmt.setInt(3, pageLength);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BoardVo vo = new BoardVo();
 				vo.setNo(rs.getLong(1));
 				vo.setTitle(rs.getString(2));
-				vo.setGroupNo(rs.getLong(3));
-				vo.setOrderNo(rs.getLong(4));
-				vo.setDepth(rs.getLong(5));
-				vo.setUserNo(rs.getLong(6));
-				vo.setName(rs.getString(7));
+				vo.setHit(rs.getInt(3));
+				vo.setRegDate(rs.getString(4));
+				vo.setGroupNo(rs.getLong(5));
+				vo.setOrderNo(rs.getLong(6));
+				vo.setDepth(rs.getLong(7));
+				vo.setUserNo(rs.getLong(8));
+				vo.setName(rs.getString(9));
 				result.add(vo);				
 			}
 		} catch (SQLException e) {
