@@ -53,7 +53,7 @@ public class UserRepository {
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "elect *"
+			String sql = "select *"
 					+ " from user"
 					+ " where email = ?"
 					+ " and password = password(?)";

@@ -30,6 +30,7 @@ public class GuestbookController {
 		guestbookService.addMessage(vo);
 		return "redirect:/guestbook/";
 	}
+	
 	@RequestMapping(value="/delete/{no}", method = RequestMethod.GET)
 	public String delete(@PathVariable("no") int no, Model model) {
 		model.addAttribute("no", no);
