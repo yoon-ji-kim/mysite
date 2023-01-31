@@ -56,4 +56,34 @@ public class UserController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value="/update", method = RequestMethod.GET)
+	public String update(HttpSession session, Model model) {
+		// AccessControl
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		// ---------------------------------------
+		
+		UserVo userVo = userService.getUser(authUser.getNo());
+		
+		model.addAttribute("userVo", userVo);
+		return "user/update";
+	}
+	
+	@RequestMapping(value="/update", method = RequestMethod.POST)
+	public String update(HttpSession session, UserVo vo) {
+		// AccessControl
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		// ---------------------------------------
+		
+		vo.setNo(authUser.getNo());
+		userService.updateUser(vo);
+		authUser.setName(vo.getName());
+		return "redirect:/user/update";
+	}
 }
