@@ -26,4 +26,37 @@ public class BoardRepository {
 	public int getTotalCount(String keyword) {
 		return sqlSession.selectOne("board.getTotalCount", keyword);
 	}
+
+	public BoardVo findBoardVoByNo(Long no) {
+		return sqlSession.selectOne("board.findBoardVoByNo", no);
+	}
+
+	public BoardVo findBoardVoByNoandUserNo(Long no, Long userNo) {
+		Map<String , Object> map = Map.of("no", no, "userNo", userNo);
+		return sqlSession.selectOne("board.findBoardVoByNoandUserNo", map);
+	}
+
+	public void update(BoardVo vo) {
+		sqlSession.update("board.update", vo);
+	}
+
+	public void insert(BoardVo vo) {
+		sqlSession.insert("board.insert", vo);
+	}
+
+	public Long getMaxGroupNo() {
+		return sqlSession.selectOne("board.findMaxNo");
+	}
+
+	public void updateOrderNo(Long orderNo, Long groupNo) {
+		Map<String, Long> map = Map.of("o_no", orderNo, "g_no", groupNo);
+		sqlSession.update("board.updateGroupNo", map);
+	}
+
+	public void delete(Long no, Long userNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("no", no);
+		map.put("userNo", userNo);
+		sqlSession.delete("board.delete", map);
+	}
 }

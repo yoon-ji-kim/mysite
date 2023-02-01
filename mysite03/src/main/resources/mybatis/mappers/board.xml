@@ -2,22 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="board" >
-	<select id="findAllByPageAndKeyword" parameterType="map">
+	<resultMap type="boardvo" id="findList">
+		<id property="no" column="no" />
+		<result property="title" column="title" />
+		<result property="hit" column="hit" />
+		<result property="regDate" column="reg_date" />
+		<result property="groupNo" column="g_no" />
+		<result property="orderNo" column="o_no" />
+		<result property="depth" column="depth" />
+		<result property="userNo" column="user_no" />
+		<result property="name" column="name" />
+	</resultMap>
+	<select id="findAllByPageAndKeyword" parameterType="map" resultMap="findList">
 		<choose>
-			<when test='keyword == null or keyword ""'>
+			<when test='keyword == null or keyword == ""'>
 				<![CDATA[
-				select *
-				from board
-				where title like '%${keyword }%'
-				or contents like '%${keyword }%'
+				select a.no, a.title, a.hit, a.reg_date, a.g_no, a.o_no, a.depth, a.user_no, b.name
+				from board a
+				join user b
+				on a.user_no = b.no
+				order by g_no desc, o_no
 				limit #{startOffset }, #{size }
 				]]>
 			</when>
 			<otherwise>
 				<![CDATA[
-				select *
-				from board
-				
+				select a.no, a.title, a.hit, a.reg_date AS regDate, a.g_no, a.o_no, a.depth, a.user_no, b.name
+				from board a
+				join user b
+				on a.user_no = b.no
+				where title like '%${keyword }%'
+				or contents like '%${keyword }%'
+				order by g_no desc, o_no
+				limit #{startOffset }, #{size }
 				]]>
 			</otherwise>
 		</choose>
@@ -25,20 +42,86 @@
 	
 	<select id="getTotalCount" parameterType="string" resultType="integer">
 		<choose>
-			<when test='_parameter == null or _parameter == ""'>
+			<when test='_parameter == null or _parameter ==""'>
 				<![CDATA[
 				select count(*)
-				from board
+				  from board
 				]]>
 			</when>
 			<otherwise>
 				<![CDATA[
 				select count(*)
-				from board
-				where title like '%${_parameter }%'
-				or contents like '%${_parameter }%'
+				  from board
+				 where title like '%${_parameter }%'
+				    or contents like '%${_parameter }%'
 				]]>
 			</otherwise>
 		</choose>
 	</select>
+	
+	<resultMap type="boardvo" id="findBoardVo">
+		<id property="no" column="no" />
+		<result property="title" column="title" />
+		<result property="contents" column="contents" />
+		<result property="hit" column="hit" />
+		<result property="regDate" column="reg_date" />
+		<result property="groupNo" column="g_no" />
+		<result property="orderNo" column="o_no" />
+		<result property="depth" column="depth" />
+		<result property="userNo" column="user_no" />
+	</resultMap>
+	<select id="findBoardVoByNo" parameterType="long" resultMap="findBoardVo">
+		<![CDATA[
+			select *
+			from board
+			where no = #{no }
+			]]>
+	</select>
+	
+	<select id="findBoardVoByNoandUserNo" parameterType="map" resultMap="findBoardVo">
+		<![CDATA[
+			select *
+			from board
+			where no = #{no }
+			and user_no = #{userNo }
+		]]>
+	</select>
+	<update id="update" parameterType="boardvo">
+		<![CDATA[
+		update board
+		set title = #{title}, contents =#{contents }
+		where no =#{no }
+		]]>
+	</update>
+	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+		insert into board
+		values(null, #{title }, #{contents }, 0, now(), #{groupNo }, #{orderNo }, #{depth }, #{userNo })
+		]]>
+	</insert>
+	
+	
+	<select id="findMaxNo" resultType="long">
+		<![CDATA[
+		select max(g_no)
+		from board
+		]]>
+	</select>
+	
+	<update id="updateGroupNo" parameterType="map">
+		<![CDATA[
+		update board
+		set o_no = o_no+1
+		where g_no = #{g_no }
+		and o_no > #{o_no }
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="map">
+		<![CDATA[
+		delete from board
+		where no = #{no } and user_no =#{userNo }
+		]]>
+	</delete>
 </mapper>
