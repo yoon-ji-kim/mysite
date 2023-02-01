@@ -1,24 +1,30 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.douzone.mysite.exception.UserRepositoryException;
 import com.douzone.mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
-
+	@Autowired
+	private DataSource dataSource;
+	@Autowired
+	private SqlSession sqlSession;
+	
 	public void insert(UserVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			String sql = "insert into user" 
 					+ " values(null, ?, ?, password(?), ?, now())";
 			pstmt = conn.prepareStatement(sql);
@@ -47,47 +53,8 @@ public class UserRepository {
 	}
 
 	public UserVo findByEmailAndPassword(UserVo vo) {
-		UserVo result = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			String sql = "select *"
-					+ " from user"
-					+ " where email = ?"
-					+ " and password = password(?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, vo.getEmail());
-			pstmt.setString(2, vo.getPassword());
-
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				result = new UserVo();
-				Long no =rs.getLong(1);
-				String name = rs.getString(2);
-				result.setNo(no);
-				result.setName(name);
-			}
-		} catch (SQLException e) {
-			throw new UserRepositoryException(e.toString());
-		} finally {
-			try {
-				if(rs !=null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return result;
+			 // 결과맵핑					// sqlId, 파라미터맵핑
+		return sqlSession.selectOne("user.findByEmailAndPassword", vo);
 	}
 	
 	public UserVo findByNo(Long userNo) {
@@ -96,7 +63,7 @@ public class UserRepository {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			String sql = "select *"
 					+ " from user"
 					+ " where no = ?";
@@ -140,7 +107,7 @@ public class UserRepository {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			String sql = null;
 			if(vo.getPassword().equals("")) {
 				sql = "update user set name =?, gender =? where no= ?";
@@ -173,20 +140,4 @@ public class UserRepository {
 			}
 		}
 	}
-
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.10.123:3307/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		}
-
-		return conn;
-	}
-
-
 }

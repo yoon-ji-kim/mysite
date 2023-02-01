@@ -20,7 +20,7 @@
 					<input type="password" name="password">
 					<input type="submit" value="확인">
 				</form>
-				<a href="${pageContext.request.contextPath }/guestbook/">목록으로 돌아가기</a>
+				<a href="${pageContext.request.contextPath }/guestbook">목록으로 돌아가기</a>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
