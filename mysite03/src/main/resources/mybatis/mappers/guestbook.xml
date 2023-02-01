@@ -2,4 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="guestbook" >
+	<!-- 1. setter를 부르기 때문에 alias로 설정 as regDate -->
+	<!-- 2. mybatis configuration 설정하기 --> 
+	<!-- 3. resultMap 만들어서 결과 맵핑하기 -->
+	<resultMap type="guestbookvo" id="findAllList">
+		<id property="no" column="no"/>
+		<result property="name" column="name"/>
+		<result property="message" column="message"/>
+		<result property="regDate" column="reg_date"/>
+	</resultMap>
+	<select id="findAll" resultMap="findAllList">
+		<![CDATA[
+		select no, name, message, reg_date
+		from guestbook
+		order by reg_date desc
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="guestbookvo">		
+		<![CDATA[
+		insert into guestbook
+		values(null, #{name }, #{password }, #{message }, now())
+		]]>
+		<!-- 마지막 insert PK의 no를 insert 파라미터 guestbookvo에 넣어주기 위함 -->
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+			select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	<delete id="deleteByNoAndPassword" parameterType="map">
+		<![CDATA[
+		delete from guestbook 
+		where no = #{no } and password = #{password }
+		]]>
+	</delete>
+	<select id="findPasswordByNo" parameterType="long" resultType="string">
+		<![CDATA[
+		select password
+		from guestbook
+		where no = #{no }
+		]]>
+	</select>
 </mapper>

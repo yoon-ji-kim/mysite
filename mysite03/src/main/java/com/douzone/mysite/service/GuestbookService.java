@@ -21,6 +21,7 @@ public class GuestbookService {
 	public void deleteMessage(Long no, String password) {
 		//방명록 삭제
 		String pwd = guestbookRepository.findPasswordByno(no);
+		System.out.println("pwd...."+pwd);
 		if(password.equals(pwd)) {
 			guestbookRepository.deleteByNoAndPassword(no, password);
 		}
