@@ -15,7 +15,6 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board?page=${beginPage}&keyword=${keyword}" method="post">					
-					<input type="hidden"  name="a" value="keyword">
 					<input type="text" id="kwd" name="kwd" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
@@ -59,18 +58,25 @@
 								<li class="disabled">◀</li>								
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${beginPage}&keyword">◀</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?page=${prePage}&keyword=${keyword }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
-						<c:forEach var="page" begin="1" end="${endPage}" step="1">
-							<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${page}&keyword">${page }</a></li>
+						<c:forEach var="page" begin="${beginPage }" end="${endPage}" step="1" varStatus="status">
+							<c:choose>
+								<c:when test="${page} == ${curPage } ">
+									<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${page}&keyword=${keyword}">${page }</a></li>							
+								</c:when>
+								<c:otherwise>
+									<li><a href="${pageContext.request.contextPath }/board?page=${page}&keyword=${keyword}">${page }</a></li>							
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 						<c:choose>
 							<c:when test="${nextPage == -1 }">
 								<li class="disabled">▶</li>	
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${nextPage}&keyword'">▶</a></li>									
+								<li><a href="${pageContext.request.contextPath }/board?page=${nextPage}&keyword=${keyword }">▶</a></li>									
 							</c:otherwise>
 						</c:choose>
 					</ul>

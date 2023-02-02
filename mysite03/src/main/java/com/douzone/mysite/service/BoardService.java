@@ -51,18 +51,17 @@ public class BoardService {
 	
 	public Map<String, Object> getContentsList(int page, String keyword) {
 		//조회 
-		//동적 쿼리로 keyword 비었으면 검색 없이 
 		//keyword 검색시 page  /board?page=2&keyword="" 따라다녀야함
-		//page- limit keyword - where
-		//페이지 개수 계산
 		//1. view에서 게시판 리스트를 렌더링하기 위한 데이터 값 계산
 		int totalCount = boardRepository.getTotalCount(keyword);
 		// 페이징 계산
-		int beginPage = page;
+		int totalPage = totalCount% LIST_SIZE ==0 ? totalCount/LIST_SIZE : (totalCount/LIST_SIZE)+1;
+		int curBlock = ((page-1)/PAGE_SIZE)+1;
+		int beginPage = (curBlock * PAGE_SIZE)-4;
 		int prePage = page-1 <1 ? -1 : page-1;//있으면 ~ 없으면 -1
 		//어디까지 그릴지
-		int endPage = totalCount% LIST_SIZE ==0 ? totalCount/LIST_SIZE : (totalCount/LIST_SIZE)+1;
-		int nextPage = page+1 > endPage? -1 : page+1;
+		int endPage = curBlock * PAGE_SIZE > totalPage ? totalPage : curBlock * PAGE_SIZE;
+		int nextPage = page+1 > totalPage? -1 : page+1;
 		//2. 리스트 가져오기
 		List<BoardVo> list = boardRepository.findAllByPageAndKeyword(page, keyword, LIST_SIZE);
 		//3. 리스트 정보 맵에 저장
@@ -74,6 +73,7 @@ public class BoardService {
 		result.put("nextPage", nextPage);
 		result.put("endPage", endPage);
 		result.put("keyword", keyword);
+		result.put("curPage", page);
 		return result;
 	}
 }
