@@ -14,7 +14,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board?page=${beginPage}&keyword=${keyword}" method="post">					
+				<form id="search_form" action="${pageContext.request.contextPath }/board?page=1&keyword=${keyword}" method="post">					
 					<input type="text" id="kwd" name="kwd" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
@@ -61,13 +61,13 @@
 								<li><a href="${pageContext.request.contextPath }/board?page=${prePage}&keyword=${keyword }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
-						<c:forEach var="page" begin="${beginPage }" end="${endPage}" step="1" varStatus="status">
+						<c:forEach var="p" begin="${beginPage }" end="${endPage}" step="1" varStatus="status">
 							<c:choose>
-								<c:when test="${page} == ${curPage } ">
-									<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${page}&keyword=${keyword}">${page }</a></li>							
+								<c:when test="${p == curPage }">
+									<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${p}&keyword=${keyword}">${p }</a></li>							
 								</c:when>
 								<c:otherwise>
-									<li><a href="${pageContext.request.contextPath }/board?page=${page}&keyword=${keyword}">${page }</a></li>							
+									<li><a href="${pageContext.request.contextPath }/board?page=${p}&keyword=${keyword}">${p }</a></li>															
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

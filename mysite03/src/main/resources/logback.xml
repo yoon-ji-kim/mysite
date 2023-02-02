@@ -36,7 +36,7 @@
     
 	<!-- 루트(글로벌) 로거 -->
 	<!-- debug info warn error-->
-	<root level="debug">
+	<root level="warn">
 		<appender-ref ref="consoleAppender" />
 	</root>
 
