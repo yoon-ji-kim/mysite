@@ -41,11 +41,12 @@
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<c:if test="${authUser.no == vo.userNo}">
-								<td>
-									<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class="del">삭제</a>
-								</td>
-							</c:if>
+							<td>
+								<c:if test="${authUser.no == vo.userNo}">
+									
+									<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class="del" ></a>
+								</c:if>
+							</td>
 						</tr>					
 					</c:forEach>
 				</table>
