@@ -34,6 +34,13 @@ public class BoardController {
 		return "board/index";
 	}
 	
+	@RequestMapping(value="",  method = RequestMethod.POST)
+	public String keyword(@RequestParam(value="page", defaultValue = "1", required = false)int page, @RequestParam(value="kwd") String keyword ,Model model) {
+															//page, keyword
+		Map<String, Object> map = boardService.getContentsList(page, keyword);
+		model.addAllAttributes(map); //안에서 map을 풀어서 jsp에서는 map.list 말고 list로 접근가능
+		return "board/index";
+	}
 	@RequestMapping("search")
 	public String search(@RequestParam(value = "no")Long no, Model model) {
 		BoardVo vo =boardService.getContents(no);
