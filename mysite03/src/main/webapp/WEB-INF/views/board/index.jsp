@@ -14,7 +14,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board?keyword=${keyword}" method="post">					
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="get">					
 					<input type="text" id="kwd" name="kwd" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
@@ -54,14 +54,9 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:choose>
-							<c:when test="${prePage == -1 }">
-								<li class="disabled">◀</li>								
-							</c:when>
-							<c:otherwise>
+						<c:if test="${prePage >0 }">
 								<li><a href="${pageContext.request.contextPath }/board?page=${prePage}&keyword=${keyword }">◀</a></li>
-							</c:otherwise>
-						</c:choose>
+						</c:if>
 						<c:forEach var="p" begin="${beginPage }" end="${endPage}" step="1" varStatus="status">
 							<c:choose>
 								<c:when test="${p == curPage }">
@@ -72,14 +67,9 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:choose>
-							<c:when test="${nextPage == -1 }">
-								<li class="disabled">▶</li>	
-							</c:when>
-							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${nextPage}&keyword=${keyword }">▶</a></li>									
-							</c:otherwise>
-						</c:choose>
+						<c:if test="${nextPage > 0 }">
+								<li><a href="${pageContext.request.contextPath }/board?page=${nextPage}&keyword=${keyword }">▶</a></li>															
+						</c:if>
 					</ul>
 				</div>	
 				<c:if test="${not empty authUser}">
