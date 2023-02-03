@@ -1,10 +1,13 @@
 package com.douzone.mysite.controller;
 
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,8 +26,19 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/join", method = RequestMethod.POST)
-	public String join(UserVo vo) {
-		userService.join(vo);
+	public String join(@Valid UserVo vo, BindingResult result,Model model) {
+									//validation 값 리턴해줌
+		if(result.hasErrors()) {
+			//validation에 error가 있다면
+//			List<ObjectError> list = result.getAllErrors(); //에러 가져오기
+//			for (ObjectError error : list) {
+//				System.out.println(error);
+//			}
+
+			model.addAllAttributes(result.getModel());
+			return "user/join";
+		}
+//		userService.join(vo);
 		return "redirect:/user/joinsuccess";
 	}
 	
