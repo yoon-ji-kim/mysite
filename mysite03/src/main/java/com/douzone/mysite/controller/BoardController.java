@@ -2,7 +2,6 @@ package com.douzone.mysite.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.security.Auth;
+import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.UserVo;
@@ -42,6 +42,7 @@ public class BoardController {
 		model.addAllAttributes(map); //안에서 map을 풀어서 jsp에서는 map.list 말고 list로 접근가능
 		return "board/index";
 	}
+	
 	@RequestMapping("search")
 	public String search(@RequestParam(value = "no")Long no, Model model) {
 		BoardVo vo =boardService.getContents(no);
@@ -49,28 +50,23 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	@Auth
 	@RequestMapping(value = "update", method = RequestMethod.GET)
-	public String update(HttpSession session,@RequestParam(value="no") Long no, Model model) {
-		UserVo authUser =(UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String update(@AuthUser UserVo authUser, @RequestParam(value="no") Long no, Model model) {
 		BoardVo vo = boardService.getContetnts(no, authUser.getNo());
 		model.addAttribute("vo", vo);
 		return "board/update";
 	}
 	
+	@Auth
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public String update(HttpSession session,BoardVo vo,@RequestParam(value="no") Long no, Model model) {
-		UserVo authUser =(UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String update(@AuthUser UserVo authUser,BoardVo vo,@RequestParam(value="no") Long no, Model model) {
 		boardService.updateContents(vo);
 		model.addAttribute("vo", vo);
 		return "redirect:/board/search?no="+no;
 	}
 	
+	@Auth
 	@RequestMapping(value = "/writeform", method = RequestMethod.POST)
 	public String replywrite(@ModelAttribute("boardVo")BoardVo vo, Model model) {
 		return "board/write";
@@ -83,12 +79,9 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String write(HttpSession session,@ModelAttribute @Valid BoardVo vo, BindingResult result, Model model) {		
-		UserVo authUser =(UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String write(@AuthUser UserVo authUser,@ModelAttribute @Valid BoardVo vo, BindingResult result, Model model) {		
 		if(result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			return "board/write";
@@ -98,12 +91,10 @@ public class BoardController {
 		return "redirect:/board?page=1&keyword";
 	}
 	
+	@Auth
 	@RequestMapping("/delete/{no}")
-	public String delete(HttpSession session,@PathVariable("no")Long no) {
-		UserVo authUser =(UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String delete(@AuthUser UserVo authUser,@PathVariable("no")Long no) {
+
 		boardService.deleteContents(no, authUser.getNo());
 		return "redirect:/board?page=1&keyword";
 	}

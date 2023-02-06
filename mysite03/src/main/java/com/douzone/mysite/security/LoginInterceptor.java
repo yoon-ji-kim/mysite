@@ -37,6 +37,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 		//authUser null 아님, 인증 됐음
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);
+		
+		System.out.println(authUser);
 		//메인으로
 		response.sendRedirect(request.getContextPath());
 		return false;

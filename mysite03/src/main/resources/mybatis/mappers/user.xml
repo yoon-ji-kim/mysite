@@ -5,14 +5,14 @@
 	<insert id="insert" parameterType="uservo">
 		<![CDATA[
 		insert into user 
-		values(null, #{name }, #{email }, password(#{password }), #{gender }, now())
+		values(null, #{name }, #{email }, password(#{password }), #{gender }, "USER", now())
 		]]>
 	</insert>
 	<select id="findByEmailAndPassword" 
 			resultType="uservo"
 			parameterType="map">
 		<![CDATA[
-		select no, name 
+		select no, name, role
 			from user 
 		where email = #{email } 
 		and password = password(#{password })
