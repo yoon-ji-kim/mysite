@@ -36,6 +36,6 @@ public class UserRepository {
 
 	public void update(UserVo vo) {
 		//동적 쿼리
-		sqlSession.update("update", vo);
+		sqlSession.update("user.update", vo);
 	}
 }
