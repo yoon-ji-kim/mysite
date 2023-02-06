@@ -34,6 +34,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			//핸들러 메서드에 대한 핸들러 유형을 반환
 			//현재 찾은 핸들러 메서드에 Auth(커스텀 어노테이션)이 있는지
 			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
+//			System.out.println(handlerMethod.getBeanType());
 		}
 		//5. type이나 method에 @Auth가 없는 경우(인증 필요 없는 경우) 
 		if(auth == null ) {
