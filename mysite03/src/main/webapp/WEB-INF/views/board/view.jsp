@@ -36,16 +36,18 @@
 				</table>
 					
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<c:if test="${vo.userNo == authUser.no }">
-						<a href="${pageContext.request.contextPath }/board/update?no=${vo.no}">글수정</a>
-						<form method="post" action="${pageContext.request.contextPath }/board/writeform">
-							<input type = "hidden" name = "groupNo" value="${vo.groupNo }">
-							<input type = "hidden" name = "orderNo" value="${vo.orderNo }">
-							<input type = "hidden" name = "depth" value="${vo.depth }">
-							<input type= "submit" value="댓글">
-						</form>
-					</c:if>	
+					<a href="${pageContext.request.contextPath }/board?page=${param.page}&keyword=${param.keyword }">글목록</a>
+					<c:if test="${not empty authUser }">
+						<c:if test="${vo.userNo == authUser.no }">
+							<a href="${pageContext.request.contextPath }/board/update?no=${vo.no}&page=${param.page}&keyword=${param.keyword}">글수정</a>
+						</c:if>	
+							<form method="post" action="${pageContext.request.contextPath }/board/writeform?page=${param.page}&keyword=${param.keyword}">
+								<input type = "hidden" name = "groupNo" value="${vo.groupNo }">
+								<input type = "hidden" name = "orderNo" value="${vo.orderNo }">
+								<input type = "hidden" name = "depth" value="${vo.depth }">
+								<input type= "submit" value="댓글">
+							</form>
+					</c:if>
 				</div>
 			</div>
 		</div>

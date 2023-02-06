@@ -26,19 +26,12 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping(value="",  method = RequestMethod.GET)
+	@RequestMapping("")
 	public String index(@RequestParam(value="page", defaultValue = "1", required = false)int page, @RequestParam(value="keyword", required = false) String keyword ,Model model) {
 															//page, keyword
+		System.out.println("page"+page+", keyword"+keyword);
 		Map<String, Object> map = boardService.getContentsList(page, keyword);
 //		model.addAttribute("map", map);
-		model.addAllAttributes(map); //안에서 map을 풀어서 jsp에서는 map.list 말고 list로 접근가능
-		return "board/index";
-	}
-	
-	@RequestMapping(value="",  method = RequestMethod.POST)
-	public String keyword(@RequestParam(value="page", defaultValue = "1", required = false)int page, @RequestParam(value="kwd") String keyword ,Model model) {
-															//page, keyword
-		Map<String, Object> map = boardService.getContentsList(page, keyword);
 		model.addAllAttributes(map); //안에서 map을 풀어서 jsp에서는 map.list 말고 list로 접근가능
 		return "board/index";
 	}

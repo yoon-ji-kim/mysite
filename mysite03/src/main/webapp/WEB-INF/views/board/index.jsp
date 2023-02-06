@@ -14,8 +14,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">					
-					<input type="text" id="kwd" name="kwd" value="${keyword }">
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="get">					
+					<input type="text" id="kwd" name="keyword" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -34,7 +34,7 @@
 								<c:if test="${vo.depth >0 }">
 								<img src="${pageContext.request.contextPath }/assets/images/reply.png">
 								</c:if>
-								<a href="${pageContext.request.contextPath }/board/search?no=${vo.no}">
+								<a href="${pageContext.request.contextPath }/board/search?no=${vo.no}&page=${curPage }&keyword=${keyword }">
 									${vo.title }
 								</a>
 							</td>
@@ -74,7 +74,7 @@
 				</div>	
 				<c:if test="${not empty authUser}">
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath }/board/write?page=${curPage }&keyword=${keyword }" id="new-book">글쓰기</a>
 					</div>				
 				</c:if>
 			</div>
