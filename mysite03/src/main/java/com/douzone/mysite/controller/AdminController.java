@@ -31,6 +31,7 @@ public class AdminController {
 	
 	@RequestMapping("/main/update")
 	public String mainUpdate(SiteVo vo) {
+		//파일 업로드
 //		siteService.update(vo);
 //		servletContext.setAttribute("siteVo", vo);
 		return "redirect:/admin";
