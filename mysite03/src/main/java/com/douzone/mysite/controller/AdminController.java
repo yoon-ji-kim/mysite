@@ -25,6 +25,7 @@ public class AdminController {
 	
 	@Autowired
 	private SiteService siteService;
+	
 	@Autowired
 	private FileuploadService fileuploadService;
 	
@@ -39,7 +40,6 @@ public class AdminController {
 	@RequestMapping("/main/update")
 	public String mainUpdate(SiteVo vo,@RequestParam("file")MultipartFile file) {
 		//파일 업로드
-		System.out.println(vo);
 		if(!file.isEmpty()) {
 			String url = fileuploadService.restore(file);
 			vo.setProfile(url);			
