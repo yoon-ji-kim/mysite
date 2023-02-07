@@ -8,4 +8,10 @@
 		order by no asc
 		limit 0, 1
 	</select>
+	
+	<update id="update" parameterType="sitevo">
+		update site
+		set title = #{title }, welcome = #{welcome }, profile = #{profile }, description = #{description }
+		where no = #{no }
+	</update>
 </mapper>
