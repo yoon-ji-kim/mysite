@@ -21,7 +21,7 @@
 				from board a
 				join user b
 				on a.user_no = b.no
-				order by g_no desc, o_no
+				order by field(b.name, '관리자') desc,g_no desc, o_no
 				limit #{startOffset }, #{size }
 				]]>
 			</when>
@@ -33,7 +33,7 @@
 				on a.user_no = b.no
 				where title like '%${keyword }%'
 				or contents like '%${keyword }%'
-				order by g_no desc, o_no
+				order by field(b.name, '관리자') desc,g_no desc, o_no
 				limit #{startOffset }, #{size }
 				]]>
 			</otherwise>
