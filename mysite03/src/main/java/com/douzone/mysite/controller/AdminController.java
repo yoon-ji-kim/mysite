@@ -3,12 +3,10 @@ package com.douzone.mysite.controller;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.douzone.mysite.security.Auth;
@@ -33,7 +31,6 @@ public class AdminController {
 	public String main(Model model) {
 		SiteVo vo = siteService.getSite();
 		model.addAttribute("siteVo", vo);
-//		servletContext.setAttribute("site", vo);
 		return "admin/main";
 	}
 	
@@ -45,7 +42,7 @@ public class AdminController {
 			vo.setProfile(url);			
 		}
 		siteService.updateSite(vo);
-//		servletContext.setAttribute("siteVo", vo);
+		servletContext.setAttribute("sitevo", vo);
 		return "redirect:/admin";
 	}
 	

@@ -45,10 +45,6 @@
 	<!-- Interceptors url 검사 -->
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/"/>
-			<bean class="com.douzone.mysite.security.MainInterceptor" />
-		</mvc:interceptor>
-		<mvc:interceptor>
 			<mvc:mapping path="/user/auth"/>
 			<bean class="com.douzone.mysite.security.LoginInterceptor" />
 		</mvc:interceptor>
@@ -62,6 +58,10 @@
 			<mvc:exclude-mapping path="/user/logout" />
 			<mvc:exclude-mapping path="/assets/**"/>
 			<bean class="com.douzone.mysite.security.AuthInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.douzone.mysite.interceptor.SiteInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

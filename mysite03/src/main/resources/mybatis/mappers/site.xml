@@ -3,15 +3,19 @@
 
 <mapper namespace="site" >
 	<select id="find" resultType="sitevo">
-		select no, title, welcome, profile, description
-		from site
-		order by no asc
-		limit 0, 1
+		<![CDATA[
+			select no, title, welcome, profile, description
+			from site
+			order by no asc
+			limit 0, 1
+		]]>
 	</select>
 	
 	<update id="update" parameterType="sitevo">
-		update site
-		set title = #{title }, welcome = #{welcome }, profile = #{profile }, description = #{description }
-		where no = #{no }
+		<![CDATA[
+			update site
+				set title = #{title }, welcome = #{welcome }, profile = #{profile }, description = #{description }
+			where no = #{no }
+		]]>
 	</update>
 </mapper>

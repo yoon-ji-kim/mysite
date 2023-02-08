@@ -1,7 +1,6 @@
 package com.douzone.mysite.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -11,7 +10,7 @@ import com.douzone.mysite.vo.UserVo;
 public class MainController {
 	
 	@RequestMapping("/")
-	public String index(Model model) {
+	public String index() {
 		return "main/index";
 	}
 	
