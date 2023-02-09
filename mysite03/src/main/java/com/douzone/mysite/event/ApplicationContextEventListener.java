@@ -1,6 +1,11 @@
 package com.douzone.mysite.event;
 
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -24,6 +29,21 @@ public class ApplicationContextEventListener {
 		//local 변수로 받아오기
 		SiteService service= applicationContext.getBean(SiteService.class);
 		SiteVo site = service.getSite();
-		//site 빈에 등록 시키기    
+		//site 빈에 등록 시키기  빈 관리하는 Factory를 통해서 등록
+		AutowireCapableBeanFactory factory = applicationContext.getAutowireCapableBeanFactory();
+		BeanDefinitionRegistry registry = (BeanDefinitionRegistry)factory;
+		MutablePropertyValues propertyValues = new MutablePropertyValues();
+		//SiteVo 객체의 이름,값 넣기
+		propertyValues.add("title", site.getTitle());
+		propertyValues.add("profile", site.getProfile());
+		propertyValues.add("welcome", site.getWelcome());
+		propertyValues.add("description", site.getDescription());
+		
+		GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+		beanDefinition.setBeanClass(SiteVo.class);
+		beanDefinition.setPropertyValues(propertyValues);
+		
+		//Bean정의 이름
+		registry.registerBeanDefinition("site", beanDefinition);
 	}
 }
