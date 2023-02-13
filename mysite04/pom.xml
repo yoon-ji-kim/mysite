@@ -5,9 +5,9 @@
 		<artifactId>mysite</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>mysite03</artifactId>
-	
+	<artifactId>mysite04</artifactId>
 	<packaging>war</packaging>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
@@ -126,7 +126,7 @@
 	</dependencies>	
 	
 	<build>
-		<finalName>mysite03</finalName>
+		<finalName>mysite04</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
