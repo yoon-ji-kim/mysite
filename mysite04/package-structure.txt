@@ -8,6 +8,10 @@
 					  		  		  |--- DBConfig.java (Connection Pool DataSource)
 					  		  		  |--- MyBatisConfig.java (MyBatis SqlSessionFactory,
 					  		  |--- web (mvc, security, upload 등)
+					  		  		  |--- MvcConfig.java(viewresolver, message-converters, mvc:annotation-driven)
+					  		  		  |--- SecurityConfig.java
+					  		  		  |--- MessageResourceConfig.java (validation 다국어 설정)
+					  		  		  |--- FileuploadConfig.java (파일 업로드시 저장 경로 설정)
 					  |--- controller
 					  |--- service
 					  |--- repository
