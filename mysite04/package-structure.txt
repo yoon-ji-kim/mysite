@@ -1,0 +1,23 @@
+[src/main/java]
+	|--- com.douzone
+				|--- mysite
+					  |--- config
+					  		  |--- AppConfig.java (Application config)
+					  		  |--- WebConfig.java
+					  		  |--- app (라이브러리화 될 수 있는 것들)
+					  		  		  |--- DBConfig.java (Connection Pool DataSource)
+					  		  		  |--- MyBatisConfig.java (MyBatis SqlSessionFactory,
+					  		  |--- web (mvc, security, upload 등)
+					  |--- controller
+					  |--- service
+					  |--- repository
+[src/main/resources]
+	|--- com.douzone
+			    |--- mysite
+			    	  |--- mybatis
+			    	  		  |--- configuration.xml
+			    	  		  |--- mappers
+			    	  		  		 |--- board.xml
+			    	  		  		 |--- user.xml
+			    	  		  |---
+			    	  |--- messages
