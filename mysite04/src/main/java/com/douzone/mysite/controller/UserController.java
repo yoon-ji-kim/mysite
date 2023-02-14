@@ -75,4 +75,12 @@ public class UserController {
 		
 		return "redirect:/user/update";
 	}
+	//Interceptor를 위한 맵핑
+	@RequestMapping("/auth")
+	public void auth() {
+	}
+
+	@RequestMapping("/logout")
+	public void logout() {
+	}
 }

@@ -18,10 +18,14 @@
 [src/main/resources]
 	|--- com.douzone
 			    |--- mysite
-			    	  |--- mybatis
-			    	  		  |--- configuration.xml
-			    	  		  |--- mappers
-			    	  		  		 |--- board.xml
-			    	  		  		 |--- user.xml
-			    	  		  |---
-			    	  |--- messages
+			    	  |--- app
+			    	  		|--- jdbc.properties
+			    	  		|--- mybatis
+			    	  		  		|--- configuration.xml
+			    	  		  		|--- mappers
+			    	  		  		 		|--- board.xml
+			    	  		  		 		|--- user.xml
+			    	  |--- web
+			    	  		|--- messages
+			    	  				|--- messages_ko.properties
+			    	  				|--- messages_en.properties
