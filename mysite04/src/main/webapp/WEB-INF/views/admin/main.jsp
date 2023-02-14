@@ -15,7 +15,6 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-form">
-					<p>${siteVo }</p>
 					<form method="post" action="${pageContext.request.contextPath }/admin/main/update" enctype="multipart/form-data">
 						<input id="no" name="no" type="hidden" value="${siteVo.no }">
 						<input id="profile" name="profile" type="hidden" value="${siteVo.profile }">
