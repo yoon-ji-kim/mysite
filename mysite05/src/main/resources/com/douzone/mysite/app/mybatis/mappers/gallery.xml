@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery" >
+	<insert id="insert" parameterType="galleryvo">		
+		<![CDATA[
+		insert into gallery
+		values(null, #{url }, #{comments })
+		]]>
+	</insert>
+	
+	<resultMap type="galleryvo" id="findAllList">
+		<id property="no" column="no" />
+		<result property="url" column="url"/>
+		<result property="comments" column="comments"/>
+	</resultMap>
+	<select id="findAll" resultMap="findAllList">
+		<![CDATA[
+		select no, url, comments
+		from gallery
+		order by no desc
+		]]>
+	</select>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+		delete from gallery
+		where no = #{no }
+		]]>
+	</delete>
+</mapper>
