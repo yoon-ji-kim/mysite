@@ -3,12 +3,13 @@ package com.douzone.mysite.event;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.douzone.mysite.service.SiteService;
 import com.douzone.mysite.vo.SiteVo;
@@ -16,6 +17,7 @@ import com.douzone.mysite.vo.SiteVo;
 //Web Application Context에 생성되게 spring-servlet.xml에 설정
 //요청이 들어와서 Dispatcher Servlet이 init에서 생성이 되면서 실행
 //SiteVo 만들기
+@Component
 public class ApplicationContextEventListener {
 	//주입받기
 	@Autowired
@@ -26,6 +28,11 @@ public class ApplicationContextEventListener {
 		System.out.println(((Object)applicationContext).getClass());
 		System.out.println(System.identityHashCode(applicationContext));
 		System.out.println("--- ContextRefreshedEvent() Received---: "+ applicationContext);
+		
+		InternalResourceViewResolver viewResolver = applicationContext.getBean(InternalResourceViewResolver.class);
+		viewResolver.setExposeContextBeansAsAttributes(true);
+		viewResolver.setExposedContextBeanNames("site");
+		
 		//local 변수로 받아오기
 		SiteService service= applicationContext.getBean(SiteService.class);
 		SiteVo site = service.getSite();

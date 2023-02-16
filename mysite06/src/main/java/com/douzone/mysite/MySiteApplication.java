@@ -2,29 +2,29 @@ package com.douzone.mysite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.douzone.mysite.event.ApplicationContextEventListener;
 
 @SpringBootApplication
 public class MySiteApplication {
 	
-	//Application Context Event Listener
-	@Bean
-	public ApplicationContextEventListener applicationContextEventListener() {
-		return new ApplicationContextEventListener();
-	}
-	@Controller
-	public class TestController {
-		@ResponseBody
-		@RequestMapping("/test")
-		public String test() {
-			return "Test!";
-		}
-	}
+	//Application Context Event Listener -> Component
+//	@Bean
+//	public ApplicationContextEventListener applicationContextEventListener() {
+//		return new ApplicationContextEventListener();
+//	}
+
+	//View Resolver  --> EventListener로
+//	@Bean
+//	public ViewResolver viewResolver() {
+//		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//		viewResolver.setViewClass(JstlView.class);
+//		viewResolver.setPrefix("/WEB-INF/views/");
+//		viewResolver.setSuffix(".jsp");
+//		viewResolver.setExposeContextBeansAsAttributes(true);
+//		viewResolver.setExposedContextBeanNames("site");
+//		return viewResolver;
+//	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(MySiteApplication.class, args);
 	}

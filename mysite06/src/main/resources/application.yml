@@ -10,13 +10,14 @@ spring:
    mvc:
       # URL Resource Mapping 하나만 등록 가능
       static-path-pattern: /assets/**
+      throw-exception-if-no-handler-found: true
       view:
          prefix: /WEB-INF/views/
          suffix: .jsp
    web:
       resources:
          # assets로 들어오면 /assets/로 가서 찾고 없으면 file:/mysite-uploads/가서 찾기
-         static-location: classpath:/assets/, file:/mysite-uploads/
+         static-locations: classpath:/assets/, file:/mysite-uploads/
    # Multipart Resolver 설정
    servlet:
       multipart:
@@ -32,6 +33,42 @@ spring:
       # AutoProxy
       auto: true
       proxy0target-class: true
+   # DataSource
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://192.168.10.123:3307/webdb?charset=utf8
+      username: webdb
+      password: webdb
+      hikari:
+         minimum-idle: 10 
+         maximum-pool-size: 20
+# mybatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
+
 # server
 server:
    port: 9090
+   servlet:
+      context-path: /mysite06
+      # Encoding Filter
+      encoding:
+         charset: utf-8
+         enabled: true
+# logging
+logging:
+ pattern:
+    file: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n"
+ logback:
+    rollingpolicy:
+       file-name-pattern: /${spring.application.name}-logs/exception.%d{yyyy-MM-dd}.%i.log.zip
+       max-file-size: 200MB
+       max-history: 10
+ file: /${spring.application.name}-logs/exception.log
+ level:
+    root: WARN
+    com:
+       douzone:
+          mysite:
+             exception: ERROR

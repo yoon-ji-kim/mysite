@@ -1,4 +1,4 @@
-package com.douzone.mysite.config.web;
+package com.douzone.mysite.config;
 
 import java.util.List;
 
