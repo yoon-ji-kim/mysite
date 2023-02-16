@@ -2,20 +2,21 @@ package com.douzone.mysite.config.web;
 
 import java.util.List;
 
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.douzone.mysite.interceptor.SiteInterceptor;
 import com.douzone.mysite.security.AuthInterceptor;
 import com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver;
 import com.douzone.mysite.security.LoginInterceptor;
 import com.douzone.mysite.security.LogoutInterceptor;
 
-@Configuration
-public class SecurityConfig implements WebMvcConfigurer {
+@SpringBootConfiguration
+public class WebConfig implements WebMvcConfigurer{
 	
 	//Argument Resolver
 	@Bean
@@ -28,7 +29,12 @@ public class SecurityConfig implements WebMvcConfigurer {
 		resolvers.add(handlerMethodArgumentResolver());
 	}
 	
-	//Interceptors
+	//Site Interceptor
+	@Bean
+	public HandlerInterceptor siteInterceptor() {
+		return new SiteInterceptor();
+	}
+	//Security Interceptors
 	@Bean
 	public HandlerInterceptor loginInterceptor() {
 		return new LoginInterceptor();
@@ -52,8 +58,6 @@ public class SecurityConfig implements WebMvcConfigurer {
 		.addInterceptor(authInterceptor())
 		.addPathPatterns("/**")
 		.excludePathPatterns("/user/auth", "/user/logout", "/assets/**");
-//			.excludePathPatterns("/user/logout")
-//			.excludePathPatterns("/assets/**");
+		registry.addInterceptor(siteInterceptor()).addPathPatterns("/**");
 	}
-	
 }
