@@ -38,4 +38,8 @@ public class UserRepository {
 		//동적 쿼리
 		sqlSession.update("user.update", vo);
 	}
+
+	public UserVo findByEmail(String email) {
+		return sqlSession.selectOne("user.findByEmail", email);
+	}
 }
