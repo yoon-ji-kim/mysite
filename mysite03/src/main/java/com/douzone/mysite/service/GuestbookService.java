@@ -17,14 +17,19 @@ public class GuestbookService {
 		//방명록 첫 페이지
 		return guestbookRepository.findAll();
 	}
+	public List<GuestbookVo> getMessageList(Long sno) {
+		//방명록 첫 페이지
+		return guestbookRepository.findAll(sno);
+	}
 	
-	public void deleteMessage(Long no, String password) {
+	public int deleteMessage(Long no, String password) {
 		//방명록 삭제
 		String pwd = guestbookRepository.findPasswordByno(no);
-		System.out.println("pwd...."+pwd);
 		if(password.equals(pwd)) {
 			guestbookRepository.deleteByNoAndPassword(no, password);
+			return 1;
 		}
+		return -1;
 	}
 	
 	public void addMessage(GuestbookVo vo) {

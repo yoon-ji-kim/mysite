@@ -17,20 +17,20 @@ public class GuestbookRepository {
 	public void insert(GuestbookVo vo) {
 		sqlSession.insert("guestbook.insert", vo);
 	}
-
 	public List<GuestbookVo> findAll() {
-		return sqlSession.selectList("guestbook.findAll");
+		return sqlSession.selectList("guestbook.findAllList");
+	}
+	public List<GuestbookVo> findAll(Long sno) {
+		return sqlSession.selectList("guestbook.findAll", sno);
 	}
 
 	public String findPasswordByno(Long no) {
 		return sqlSession.selectOne("guestbook.findPasswordByNo", no);
 	}
 
-	public void deleteByNoAndPassword(Long no, String password) {
+	public int deleteByNoAndPassword(Long no, String password) {
 		Map<String, Object> map = Map.of("no", no, "password", password);
-//		Map<String, Object> map = new HashMap<>();
-//		map.put("no", no);
-//		map.put("password", password);
 		sqlSession.delete("guestbook.deleteByNoAndPassword", map);
+		return 1;
 	}
 }

@@ -160,7 +160,7 @@
 				</form:form>
 			</div>
 		</div>
-		<div id="dialog-message" title="" style='display:none'>
+		<div id="dialog-message" title="" style=':none'>
 	    	<p style="line-height: 60px">
 	    	
 	    	</p>

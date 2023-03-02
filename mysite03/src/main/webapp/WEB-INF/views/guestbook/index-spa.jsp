@@ -11,6 +11,152 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	var render = function(vo, mode) {
+		var htmls = "<li data-no='"+ vo.no +"'>'" +
+					" <strong>" + vo.name + "</strong>" +
+					" <p>" + vo.message + "</p>" +
+					" <strong></strong>" +
+					" <a href='' data-no='"+ vo.no +"'>삭제</a>" + 
+					"</li>";
+		$('#list-guestbook')[mode? "prepend" : "append"](htmls);
+	}
+	var fetch = function(sno) {
+		$.ajax({
+			url:"${pageContext.request.contextPath}/guestbook/api?sno="+sno
+			, type: "get"
+			, dataType: "json"
+			, success: function(response) {
+				if(response.result === 'fail'){
+					console.error(response.message);
+					return;
+				}
+				response.data.forEach(function(vo) {
+					render(vo);
+				})
+			}
+		})
+	}
+	
+	var messageBox = function(title, message, callback) {
+		$('#dialog-message p').text(message);
+		$('#dialog-message').attr('title', title).dialog({
+			modal:true
+			,bottons: {
+				"확인": function() {
+					$(this).dialog('close');
+				}
+			}
+			,close: callback
+		});
+	}
+	$(function() {
+		$(window).scroll(function() {
+			var $window = $(this);
+			var $document = $(document);
+			
+			var windowHeight = $window.height();
+			var documentHeight = $document.height();
+			var scrollTop = $window.scrollTop();
+			
+			if(documentHeight < windowHeight + scrollTop +5){
+				console.log($('#list-guestbook li:last-child').data("no"));
+				//console.log($('lastLi').data("no"));
+				fetch($('#list-guestbook li:last-child').data("no"));
+			}
+		})
+		
+		fetch(0);
+		
+		$('#add-form').submit(function(event) {
+			event.preventDefault();
+			var vo = {};
+			if($('#input-name').val() === '') {
+				messageBox('방명록 등록','이름을 입력해주세요.', function() {
+					$('#input-name').focus();
+				});
+				return;
+			}
+			if($('#input-password').val() === ''){
+				messageBox('방명록 등록', '비밀번호를 입력해주세요.', function() {
+					$('#input-password').focus();
+				});
+				return;
+			}
+			if($('#tx-content').val() === ''){
+				messageBox('방명록 등록', '내용을 입력해주세요.', function() {
+					$('#tx-content').focus();
+				});
+				return;
+			}
+			
+			vo.name = $('#input-name').val();
+			vo.password = $('#input-password').val();
+			vo.message = $('#tx-content').val();
+			$.ajax({
+				url: "${pageContext.request.contextPath}/guestbook/api"
+				, type: "post"
+				, dataType: "json"
+				, contentType: "application/json"
+				, data: JSON.stringify(vo)
+				, success: function(response) {
+					if(response.result === 'fail'){
+						console.error(response.message);
+						return;
+					}
+					console.log(response.data);
+					render(response.data, true);
+				}
+			})
+		})
+		
+		var $dialogDelete = $('#dialog-delete-form').dialog({
+			autoOpen: false
+			, modal: true
+			, buttons: {
+				"삭제": function() {
+					//console.log($('#hidden-no').val());
+					//console.log($('#password-delete').val());
+					$.ajax({
+						url: "${pageContext.request.contextPath}/guestbook/api/"+$('#hidden-no').val()+'/'+$('#password-delete').val()
+						, type: "delete"
+						, dataType: "json"
+						, success: function(response) {
+							console.log(response.data);
+							if(response.result === 'fail'){
+								console.error(response.message);
+								return;
+							}
+							if((response.data) === 1) {
+								$('li[data-no='+$('#hidden-no').val()+']').remove()
+								$dialogDelete.dialog('close');
+								return;
+							} else {
+								//$('.validateTips error').show();
+								$('#dialog-delete-form p:nth-child(2)').show();
+								$('#password-delete').val('').focus();
+							}
+							//$(this).dialog('close');
+							return;
+						}
+					})
+
+				}
+				,"취소": function() {
+					$('#password-delete').val('');
+					$(this).dialog('close');
+				}
+			}
+		})
+		
+		$(document).on('click', '#list-guestbook li a', function() {
+			event.preventDefault();
+			//$(this).data('no');
+			$('#hidden-no').val($(this).data('no'));
+			$dialogDelete.dialog('open');
+		})
+	})
+</script>
 </head>
 <body>
 	<div id="container">
@@ -24,40 +170,7 @@
 					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
 					<input type="submit" value="보내기" />
 				</form>
-				<ul id="list-guestbook">
-
-					<li data-no=''>
-						<strong>지나가다가</strong>
-						<p>
-							별루입니다.<br>
-							비번:1234 -,.-
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-					<li data-no=''>
-						<strong>둘리</strong>
-						<p>
-							안녕하세요<br>
-							홈페이지가 개 굿 입니다.
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-
-					<li data-no=''>
-						<strong>주인</strong>
-						<p>
-							아작스 방명록 입니다.<br>
-							테스트~
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-									
-				</ul>
+				<ul id="list-guestbook"></ul>
 			</div>
 			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
   				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
@@ -69,7 +182,7 @@
   				</form>
 			</div>
 			<div id="dialog-message" title="" style="display:none">
-  				<p></p>
+  				<p style='line-height: 60px'></p>
 			</div>						
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
