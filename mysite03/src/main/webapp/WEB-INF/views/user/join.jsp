@@ -140,7 +140,7 @@
 					<label class="block-label">
 						<spring:message code="user.join.label.password"/>
 					</label>
-					<input name="password" id="password" type="password" value="${userVo.password }">
+					<form:password path="password"/>
 					<p style="color:#f00; text-align:left; padding:0">
 						<form:errors path="password" />
 					</p>			
