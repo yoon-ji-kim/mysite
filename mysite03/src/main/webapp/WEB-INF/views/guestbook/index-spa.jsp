@@ -105,6 +105,7 @@
 						return;
 					}
 					console.log(response.data);
+					$('#add-form')[0].reset();
 					render(response.data, true);
 				}
 			})
