@@ -10,7 +10,7 @@ export default function Index() {
     useEffect(() =>{
         fetchList();
     }, []);
-    
+
     const fetchList = async () => {
         try {
             const response = await fetch('/api/gallery', {

@@ -1,5 +1,7 @@
 package com.douzone.mysite.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,9 @@ public class GuestbookController {
 	}
 
 	@DeleteMapping("/{no}")
-	public ResponseEntity<JsonResult> delete(@PathVariable("no") Long no, @RequestParam(value="password", required=true, defaultValue="") String password) {
+	public ResponseEntity<JsonResult> delete(@PathVariable("no") Long no, @RequestBody Map<String, Object> param) {
+		String password= (String)param.get("password");
+		System.out.println(password);
 		Boolean result = guestbookService.deleteMessage(no, password);		
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(result ? no : null));
 	}

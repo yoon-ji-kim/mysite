@@ -33,9 +33,9 @@ export default function Guestbook() {
         _setMessages(messages);
     }
 
+
     const notifyMessage = {
         delete: function (no) {
-            /* ajax 삭제 기능 구현 */
             setMessages(messages.filter((message) => message.no != no));
         },
         add: async function (message) {
@@ -57,7 +57,6 @@ export default function Guestbook() {
                 throw json.message;
             }
 
-            
             setMessages([json.data, ...messages]);
         }
     }
@@ -93,7 +92,6 @@ export default function Guestbook() {
             console.error(err);
         }
     }
-
     return (
         <MySiteLayout>
             <div className={styles.Guestbook}>
