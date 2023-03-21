@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react';
 import MySiteLayout from "../../layout/MySiteLayout";
 import styles from '../../assets/scss/component/user/User.scss';
 import Modal from 'react-modal';
-import modalStyles from '../../assets/scss/component/modal/modal.scss';
+
 Modal.setAppElement('body');
 export default function SignUp() {
     const [modalData, setModalData] = useState({isOpen: false});
