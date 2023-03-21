@@ -7,7 +7,9 @@ export default function ImageListItem({no, url, comment, notifyImage}) {
             <span style={{
                 backgroundImage: `url(${url})`
             }}/>
-            <a onClick={() => notifyImage.delete(no)}>삭제</a>
+            <a onClick={(event) => {
+                event.preventDefault();
+                notifyImage.delete(no)}}>삭제</a>
         </li>
     )
 }

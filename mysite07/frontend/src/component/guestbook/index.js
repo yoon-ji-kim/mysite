@@ -35,6 +35,7 @@ export default function Guestbook() {
 
     const notifyMessage = {
         delete: function (no) {
+            /* ajax 삭제 기능 구현 */
             setMessages(messages.filter((message) => message.no != no));
         },
         add: async function (message) {
@@ -42,7 +43,7 @@ export default function Guestbook() {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'applcation/json'
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(message)
             });
@@ -56,6 +57,7 @@ export default function Guestbook() {
                 throw json.message;
             }
 
+            
             setMessages([json.data, ...messages]);
         }
     }
@@ -69,11 +71,10 @@ export default function Guestbook() {
         const messagesInState = this ? messagesRef.current : messages;
         const startNo = messagesInState.length === 0 ? 0 : messagesInState[messagesInState.length - 1].no;
         try {
-            const response = await fetch(`/api/guestbook/${startNo}`, {
+            const response = await fetch(`/api/guestbook?no=${startNo}`, {
                 method: 'get',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'applcation/json'
+                    'Accept': 'application/json'
                 }
             });
 

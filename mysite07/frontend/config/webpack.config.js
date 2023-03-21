@@ -38,7 +38,7 @@ module.exports = (env) => ({
         port: 9090,
         proxy: {
             '/api': 'http://localhost:8080',
-            '/assets/upload-images': 'http://localhost:8888'
+            '/assets/gallery': 'http://localhost:8080'
         },
         liveReload: true,
         hot: false,

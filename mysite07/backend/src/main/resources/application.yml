@@ -37,13 +37,13 @@ spring:
          on-profile: development
    web:
       resources:
-         static-locations: classpath:/assets/, file:E:/mysite-uploads/
+         static-locations: classpath:/assets/, file:/mysite-uploads/
    devtools:
       livereload:
          enabled: true
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mysql://192.168.0.51:3307/webdb?characterEncoding=utf8
+      url: jdbc:mariadb://192.168.10.123:3307/webdb?charset=utf8
       username: webdb
       password: webdb   
 
@@ -74,12 +74,12 @@ spring:
          static-locations: classpath:/assets/, file:/mysite-uploads/
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mysql://192.168.0.51:3307/webdb?characterEncoding=utf8
+      url: jdbc:mariadb://192.168.10.123:3307/webdb?charset=utf8
       username: webdb
       password: webdb   
          
 server:
-   port: 8881
+   port: 8088
    servlet:
       context-path: /
       encoding:

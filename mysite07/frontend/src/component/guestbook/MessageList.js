@@ -28,7 +28,7 @@ export default function MessageList({messages, notifyMessage}) {
                 method: 'delete',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'applcation/json'
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({password: e.target.password.value})
             });
