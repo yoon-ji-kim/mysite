@@ -1,4 +1,4 @@
-package me.kickscar.mysite.vo;
+package com.douzone.mysite.vo;
 
 import lombok.Getter;
 import lombok.Setter;

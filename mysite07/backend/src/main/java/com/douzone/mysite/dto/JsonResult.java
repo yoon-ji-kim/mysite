@@ -1,4 +1,4 @@
-package me.kickscar.mysite.dto;
+package com.douzone.mysite.dto;
 
 public class JsonResult {
 	private String result;  /* "success" or "fail"  */

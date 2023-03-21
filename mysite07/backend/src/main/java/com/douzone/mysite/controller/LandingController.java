@@ -1,4 +1,4 @@
-package me.kickscar.mysite.controller;
+package com.douzone.mysite.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

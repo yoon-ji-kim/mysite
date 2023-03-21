@@ -1,4 +1,4 @@
-package me.kickscar.mysite.controller;
+package com.douzone.mysite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import me.kickscar.mysite.dto.JsonResult;
-import me.kickscar.mysite.service.GuestbookService;
-import me.kickscar.mysite.vo.GuestbookVo;
+import com.douzone.mysite.dto.JsonResult;
+import com.douzone.mysite.service.GuestbookService;
+import com.douzone.mysite.vo.GuestbookVo;
 
 @RestController
 @RequestMapping("/api/guestbook")

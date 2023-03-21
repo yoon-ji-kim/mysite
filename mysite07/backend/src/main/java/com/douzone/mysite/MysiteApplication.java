@@ -1,4 +1,4 @@
-package me.kickscar.mysite;
+package com.douzone.mysite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

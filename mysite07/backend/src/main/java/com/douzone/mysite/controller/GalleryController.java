@@ -1,4 +1,4 @@
-package me.kickscar.mysite.controller;
+package com.douzone.mysite.controller;
 
 import java.util.HashMap;
 
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import me.kickscar.mysite.dto.JsonResult;
-import me.kickscar.mysite.service.FileUploadService;
-import me.kickscar.mysite.service.GalleryService;
-import me.kickscar.mysite.vo.GalleryVo;
+import com.douzone.mysite.dto.JsonResult;
+import com.douzone.mysite.service.FileUploadService;
+import com.douzone.mysite.service.GalleryService;
+import com.douzone.mysite.vo.GalleryVo;
 
 @RestController
 @RequestMapping("/api/gallery")

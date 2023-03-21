@@ -1,4 +1,4 @@
-package me.kickscar.mysite.service;
+package com.douzone.mysite.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import me.kickscar.mysite.repository.GuestbookRepository;
-import me.kickscar.mysite.vo.GuestbookVo;
+import com.douzone.mysite.repository.GuestbookRepository;
+import com.douzone.mysite.vo.GuestbookVo;
 
 @Service
 public class GuestbookService {

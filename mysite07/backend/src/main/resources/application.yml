@@ -3,7 +3,12 @@ spring:
      name: mysite
    profiles:
       active: development
-      
+               
+jwt:
+    header: Authorization
+    # spring-boot jwt testPassword
+    secret: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    token-validity-in-seconds: 600       
 ---
 #
 # common configuration
@@ -26,7 +31,7 @@ spring:
 
 mybatis:
    config-location: classpath:mybatis/configuration.xml
-         
+        
 ---
 #
 # development profile configuration
@@ -97,7 +102,7 @@ logging:
       max-history: 30
    level:
       root: INFO
-      me:
-         kickscar:
+      com:
+         douzone:
             mysite:
-               exception: ERROR        
+               exception: ERROR       
